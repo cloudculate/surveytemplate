@@ -61,7 +61,7 @@ class App extends React.Component{
     var url_string = window.location.href
     var url = new URL(url_string)
 
-    var respondentUid
+    var respondentUid = ""
 
     var {surveyInfo, userInfo} = this.state
     surveyInfo.apiKey = url.searchParams.get("api_key")
@@ -72,8 +72,16 @@ class App extends React.Component{
 
     if(surveyInfo.mode === "responses"){
 
-      respondentUid = url.searchParams.get("respondent_uid")
-      userInfo.email = url.searchParams.get("respondent_email")
+      if(url.searchParams.get("respondent_uid") != null){
+
+        respondentUid = url.searchParams.get("respondent_uid")
+      }
+
+      userInfo.email = ""
+      if(url.searchParams.get("respondent_email") != null){
+
+        userInfo.email = url.searchParams.get("respondent_email")
+      }
 
       this.setState(()=>({
 
@@ -96,7 +104,7 @@ class App extends React.Component{
 
     var {respondentUid, userInfo, surveyInfo} = this.state
 
-    return <div>
+     /* return <div>
 
          {surveyInfo.mode === "take" ? <Survey_Take
                svcUrl={"http://localhost:8080"}
@@ -119,10 +127,10 @@ class App extends React.Component{
                apiKey={surveyInfo.apiKey}
                appKey={surveyInfo.appKey}
                /> : ""}
-       </div>
+       </div>  */
 
     return (
-       <Router basename="/surveys">
+        <Router basename="/surveys">
         <div>
 
           {surveyInfo.mode === "take" ? <Survey_Take

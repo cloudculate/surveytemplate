@@ -38,6 +38,14 @@ class Survey_Take extends React.Component{
         var {userInfo, surveyDef, questionIdsToAnswerIds, sectionIdsToAdditionalComments} = that.state
         userInfo.geoLocation = geoPosition
 
+        var currentdate = new Date()
+        userInfo.time = currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " @ "  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds();
+
         var retResponses = [[surveyDef.respondentUid, userInfo.email, JSON.stringify(questionIdsToAnswerIds), JSON.stringify(sectionIdsToAdditionalComments), JSON.stringify(userInfo)]]
 
         axios.post(that.props.svcUrl + "/CaptureSurveyResponse",  
@@ -70,7 +78,7 @@ class Survey_Take extends React.Component{
         return navigator.geolocation.getCurrentPosition(function(geoPosition){
 
           callback(geoPosition.coords.latitude + "," + geoPosition.coords.longitude)
-        })
+        }, function(){callback("Geolocation is not supported by this browser.")})
       } 
       else {
 
@@ -347,7 +355,7 @@ class Survey_Take extends React.Component{
           return
         }
         
-        window.scrollTo(0, element.offsetTop - 50)
+        window.scrollTo(0, element.offsetTop)
       }
     }
 

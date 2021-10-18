@@ -102,8 +102,16 @@ class SurveyResults extends React.Component{
                 }
         ).then(function (response) {
 
+            var sResponses = response.data.content[0].output_param_surveyresponses
+
+            if(sResponses[0] === "invalid respondent"){
+
+                alert("Invalid Respondent ID or Email. Please Try Again.")
+                return
+            }
+
             that.setState(()=>({
-                surveyResponses: response.data.content[0].output_param_surveyresponses
+                surveyResponses: sResponses
             }))
 
             that.populateAnswersToSurveyDefObject()
